@@ -1,15 +1,26 @@
+import Home from "../pages/Home";
 import { createBrowserRouter } from "react-router";
 import MainLayout from "../layout/MainLayout";
-import Home from "../pages/Home";
+import Services from "../pages/Services";
+import AddService from "../pages/AddService";
+import ManageService from "../pages/ManageService";
+import BookedServices from "../pages/BookedServices";
+import ServiceToDo from "../pages/ServiceToDo";
+import Login from "../pages/Login";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <h1>Something went wrong</h1>,
     children: [
       { path: "/", element: <Home /> },
-      { path: "about", element: <h1>About Page</h1> },
-      { path: "contact", element: <h1>Contact Page</h1> },
+      { path: "services", element: <Services /> },
+      { path: "dashboard/add-service", element: <AddService /> },
+      { path: "dashboard/manage-service", element: <ManageService /> },
+      { path: "dashboard/booked-services", element: <BookedServices /> },
+      { path: "dashboard/service-to-do", element: <ServiceToDo /> },
+      { path: "login", element: <Login /> },
       { path: "*", element: <h1>Page Not Found</h1> },
     ],
   },

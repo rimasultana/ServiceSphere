@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import AuthContext from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
@@ -47,11 +48,9 @@ const AuthProvider = ({ children }) => {
         const user = { email: currentUser.email };
 
         axios
-          .post(
-            "https://job-portal-server-for-recruiter-part3.vercel.app/jwt",
-            user,
-            { withCredentials: true }
-          )
+          .post("https://a11-b10-server-side.vercel.app/jwt", user, {
+            withCredentials: true,
+          })
           .then((res) => {
             console.log("login token", res.data);
             setLoading(false);
@@ -59,7 +58,7 @@ const AuthProvider = ({ children }) => {
       } else {
         axios
           .post(
-            "https://job-portal-server-for-recruiter-part3.vercel.app/logout",
+            "https://a11-b10-server-side.vercel.app/logout",
             {},
             {
               withCredentials: true,
