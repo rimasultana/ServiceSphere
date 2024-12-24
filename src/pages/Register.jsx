@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router";
 
 const Register = ({ onRegister }) => {
@@ -15,11 +16,12 @@ const Register = ({ onRegister }) => {
       return;
     }
     setError("");
-    onRegister({ name, email, password, photoURL });
+    toast.success("hi");
+    // onRegister({ name, email, password, photoURL });
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">
           Register
