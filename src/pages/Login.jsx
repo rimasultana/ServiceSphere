@@ -1,20 +1,45 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaGoogle } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
+import toast from "react-hot-toast";
 
-const Login = ({ onLogin, onGoogleSignIn }) => {
+const Login = () => {
+  const { logInWithGoogle, logInUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleLogin = (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError("Email and Password are required");
+      toast.error(error);
       return;
     }
     setError("");
-    onLogin(email, password);
+    logInUser(email, password)
+      .then(() => {
+        toast.success("User logged in!");
+        navigate(from);
+      })
+      .catch((errors) => {
+        toast.error(errors?.message);
+      });
+  };
+  const onGoogleSignIn = () => {
+    logInWithGoogle()
+      .then(() => {
+        toast.success("User signed in with Google!");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Google Sign-in failed", error);
+        setError("Google Sign-in failed");
+      });
   };
 
   return (
@@ -77,7 +102,7 @@ const Login = ({ onLogin, onGoogleSignIn }) => {
         </button>
 
         <p className="text-sm text-center text-gray-600 mt-4">
-          Don't have an account?{" "}
+          Don&lsquo;t have an account?{" "}
           <Link to="/register" className="text-indigo-600 hover:underline">
             Register here
           </Link>

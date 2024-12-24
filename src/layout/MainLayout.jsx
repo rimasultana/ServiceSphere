@@ -3,9 +3,10 @@ import Navbar from "../components/Navbar";
 const MainLayout = () => {
   return (
     <>
-      <h1>this is nav</h1>
       <Navbar />
-      <Outlet />
+      <main className="w-11/12 mx-auto min-h-screen">
+        <Outlet />
+      </main>
       <h1>this is footer</h1>
     </>
   );

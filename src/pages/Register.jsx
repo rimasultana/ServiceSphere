@@ -1,13 +1,18 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../hooks/useAuth";
 
-const Register = ({ onRegister }) => {
+const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [error, setError] = useState("");
+  const { createUser, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -16,8 +21,16 @@ const Register = ({ onRegister }) => {
       return;
     }
     setError("");
-    toast.success("hi");
-    // onRegister({ name, email, password, photoURL });
+    createUser(email, password)
+      .then(() => {
+        updateUserProfile(name, photoURL)
+          .then(() => {
+            navigate(from);
+            toast.success("Registration successful!");
+          })
+          .catch((error) => error.message);
+      })
+      .catch((error) => toast.error(error.message));
   };
 
   return (

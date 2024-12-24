@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import AuthContext from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -8,9 +7,11 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
-import auth from "../../firebase/firebase.init";
 import axios from "axios";
+import AuthContext from "./AuthContext";
+import auth from "../firebase/firebase.config";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -23,30 +24,32 @@ const AuthProvider = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const singInUser = (email, password) => {
+  const logInUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const singInWithGoogle = () => {
+  const logInWithGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
-  const signOutUser = () => {
+  const logOutUser = () => {
     setLoading(true);
     return signOut(auth);
+  };
+  const updateUserProfile = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-
-      console.log("state captured", currentUser?.email);
-
       if (currentUser?.email) {
         const user = { email: currentUser.email };
-
         axios
           .post("https://a11-b10-server-side.vercel.app/jwt", user, {
             withCredentials: true,
@@ -64,8 +67,7 @@ const AuthProvider = ({ children }) => {
               withCredentials: true,
             }
           )
-          .then((res) => {
-            console.log("logout", res.data);
+          .then(() => {
             setLoading(false);
           });
       }
@@ -80,9 +82,10 @@ const AuthProvider = ({ children }) => {
     user,
     loading,
     createUser,
-    singInUser,
-    singInWithGoogle,
-    signOutUser,
+    updateUserProfile,
+    logInUser,
+    logInWithGoogle,
+    logOutUser,
   };
 
   return (
