@@ -7,6 +7,7 @@ import ManageService from "../pages/ManageService";
 import BookedServices from "../pages/BookedServices";
 import ServiceToDo from "../pages/ServiceToDo";
 import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "dashboard/booked-services", element: <BookedServices /> },
       { path: "dashboard/service-to-do", element: <ServiceToDo /> },
       { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
       { path: "*", element: <h1>Page Not Found</h1> },
     ],
   },
