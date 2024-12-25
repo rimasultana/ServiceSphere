@@ -10,7 +10,7 @@ const AddService = () => {
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const handleAddService = async (e) => {
+  const handleAddService = (e) => {
     e.preventDefault();
 
     if (!serviceName || !price || !serviceArea || !description || !imageUrl) {
@@ -30,21 +30,29 @@ const AddService = () => {
         image: user?.photoURL,
       },
     };
-
-    try {
-      // Assuming `addServiceToDatabase` is a function that sends data to your backend
-      console.log(serviceData);
-      toast.success("Service added successfully!");
-      // Clear form fields
-      setServiceName("");
-      setPrice("");
-      setServiceArea("");
-      setDescription("");
-      setImageUrl("");
-    } catch (error) {
-      console.error("Error adding service:", error);
-      toast.error("Failed to add service");
-    }
+    fetch("http://localhost:5000/service", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(serviceData),
+    })
+      .then((data) => data.json())
+      .then((res) => {
+        if (res.insertedId) {
+          toast.success("Service added successfully!");
+          // Clear form fields
+          setServiceName("");
+          setPrice("");
+          setServiceArea("");
+          setDescription("");
+          setImageUrl("");
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding service:", error);
+        toast.error("Failed to add service");
+      });
   };
 
   return (
