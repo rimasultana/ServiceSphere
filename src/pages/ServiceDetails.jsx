@@ -11,7 +11,7 @@ const ServiceDetails = () => {
   const [service, setService] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/service/${id}`)
+    fetch(`https://a11-b10-server-side.vercel.app/service/${id}`)
       .then((data) => data.json())
       .then((res) => {
         setService(res);
@@ -39,7 +39,7 @@ const ServiceDetails = () => {
       price: service.price,
       serviceStatus: "pending",
     };
-    fetch("http://localhost:5000/purchase", {
+    fetch("https://a11-b10-server-side.vercel.app/purchase", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -10,7 +10,9 @@ const Services = () => {
     // Fetch all services
     const fetchServices = async () => {
       try {
-        const response = await fetch("http://localhost:5000/service");
+        const response = await fetch(
+          "https://a11-b10-server-side.vercel.app/service"
+        );
         const data = await response.json();
         setServices(data);
         setLoading(false);

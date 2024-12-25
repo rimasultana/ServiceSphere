@@ -13,7 +13,7 @@ const ManageServices = () => {
     const fetchServices = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/service?email=${user?.email}`
+          `https://a11-b10-server-side.vercel.app/service?email=${user?.email}`
         );
         const data = await response.json();
         setServices(data);
@@ -27,7 +27,7 @@ const ManageServices = () => {
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this service?")) {
       try {
-        await fetch(`http://localhost:5000/service/${id}`, {
+        await fetch(`https://a11-b10-server-side.vercel.app/service/${id}`, {
           method: "DELETE",
         });
         setServices((prev) => prev.filter((service) => service._id !== id));
@@ -57,13 +57,16 @@ const ManageServices = () => {
       description: event.target.description.value,
     };
 
-    fetch(`http://localhost:5000/service/${selectedService._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedService),
-    })
+    fetch(
+      `https://a11-b10-server-side.vercel.app/service/${selectedService._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedService),
+      }
+    )
       .then((response) => response.json())
       .then((updatedService) => {
         console.log("Updated Service:", updatedService);

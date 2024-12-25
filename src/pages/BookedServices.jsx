@@ -13,7 +13,7 @@ const BookedServices = () => {
     const fetchBookedServices = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/purchases?email=${user?.email}`
+          `https://a11-b10-server-side.vercel.app/purchases?email=${user?.email}`
         );
         const data = await response.json();
         setBookedServices(data);

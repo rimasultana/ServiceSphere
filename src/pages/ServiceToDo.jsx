@@ -13,7 +13,7 @@ const ServiceToDo = () => {
     const fetchServices = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/purchases?email=${user?.email}`
+          `https://a11-b10-server-side.vercel.app/purchases?email=${user?.email}`
         );
         const data = await response.json();
         setServices(data);
@@ -32,13 +32,16 @@ const ServiceToDo = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      const response = await fetch(`http://localhost:5000/purchase/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ serviceStatus: status }),
-      });
+      const response = await fetch(
+        `https://a11-b10-server-side.vercel.app/purchase/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ serviceStatus: status }),
+        }
+      );
       if (response.ok) {
         setServices((prevServices) =>
           prevServices.map((service) =>
