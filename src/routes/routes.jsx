@@ -9,6 +9,7 @@ import ServiceToDo from "../pages/ServiceToDo";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ServiceDetails from "../pages/ServiceDetails";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -26,23 +27,43 @@ const router = createBrowserRouter([
       },
       {
         path: "services/:id",
-        element: <ServiceDetails />,
+        element: (
+          <PrivateRoute>
+            <ServiceDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "dashboard/add-service",
-        element: <AddService />,
+        element: (
+          <PrivateRoute>
+            <AddService />
+          </PrivateRoute>
+        ),
       },
       {
         path: "dashboard/manage-service",
-        element: <ManageService />,
+        element: (
+          <PrivateRoute>
+            <ManageService />
+          </PrivateRoute>
+        ),
       },
       {
         path: "dashboard/booked-services",
-        element: <BookedServices />,
+        element: (
+          <PrivateRoute>
+            <BookedServices />
+          </PrivateRoute>
+        ),
       },
       {
         path: "dashboard/service-to-do",
-        element: <ServiceToDo />,
+        element: (
+          <PrivateRoute>
+            <ServiceToDo />
+          </PrivateRoute>
+        ),
       },
       {
         path: "login",

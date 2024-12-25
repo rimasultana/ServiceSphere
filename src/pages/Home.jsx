@@ -1,7 +1,13 @@
+import Banner from "../components/Banner";
+import PopularServices from "../components/PopularServices";
+
 const Home = () => {
   return (
     <div>
-      <h1 className="text-red-400 text-3xl">home page coming</h1>
+      <div className="pt-3">
+        <Banner />
+        <PopularServices />
+      </div>
     </div>
   );
 };

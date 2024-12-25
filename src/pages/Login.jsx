@@ -34,7 +34,7 @@ const Login = () => {
     logInWithGoogle()
       .then(() => {
         toast.success("User signed in with Google!");
-        navigate("/");
+        navigate(from);
       })
       .catch((error) => {
         console.error("Google Sign-in failed", error);

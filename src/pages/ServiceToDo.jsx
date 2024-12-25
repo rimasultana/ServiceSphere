@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
+import LoadingSpinner from "../components/Loading";
 
 const ServiceToDo = () => {
   const { user } = useAuth();
@@ -55,11 +56,7 @@ const ServiceToDo = () => {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        Loading...
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

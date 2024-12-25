@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import LoadingSpinner from "../components/Loading";
 
 const Services = () => {
   const [services, setServices] = useState([]);
@@ -22,11 +23,7 @@ const Services = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <p className="text-xl font-semibold">Loading...</p>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
@@ -77,8 +74,8 @@ const Services = () => {
                   <td className="px-4 py-2">${service.price}</td>
                   <td className="px-4 py-2 mt-5 flex items-center gap-2">
                     <img
-                      src={service.serviceProvider.image}
-                      alt={service.serviceProvider.name}
+                      src={service.serviceProvider?.image}
+                      alt={service.serviceProvider?.name}
                       className="w-6 h-6 md:w-8 md:h-8 rounded-full"
                     />
                     <span>{service.serviceProvider.name}</span>

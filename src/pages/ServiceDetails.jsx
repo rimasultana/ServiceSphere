@@ -1,7 +1,8 @@
-import { useParams} from "react-router";
+import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
+import LoadingSpinner from "../components/Loading";
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -60,7 +61,7 @@ const ServiceDetails = () => {
   };
 
   if (!service) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
