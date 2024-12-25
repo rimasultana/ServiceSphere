@@ -1,29 +1,24 @@
-import { useParams, useNavigate } from "react-router";
+import { useParams} from "react-router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
 
 const ServiceDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { user } = useAuth();
   const [service, setService] = useState(null);
 
   useEffect(() => {
-    // Fetch single service details by ID
-    const fetchServiceDetails = async () => {
-      try {
-        const response = await fetch(
-          `https://a11-b10-server-side.vercel.app/service/${id}`
-        );
-        const data = await response.json();
-        setService(data);
-      } catch (error) {
+    fetch(`http://localhost:5000/service/${id}`)
+      .then((data) => data.json())
+      .then((res) => {
+        setService(res);
+      })
+      .catch((error) => {
         console.error("Failed to fetch service details:", error);
         toast.error("Failed to load service details");
-      }
-    };
-    fetchServiceDetails();
+      });
   }, [id]);
 
   const handlePurchase = async (event) => {
@@ -43,26 +38,25 @@ const ServiceDetails = () => {
       price: service.price,
       serviceStatus: "pending",
     };
-
-    try {
-      const response = await fetch(
-        `https://a11-b10-server-side.vercel.app/purchases`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(purchaseData),
+    fetch("http://localhost:5000/purchase", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(purchaseData),
+    })
+      .then((data) => data.json())
+      .then((res) => {
+        if (res.insertedId) {
+          toast.success("Service booked successfully!");
+          document.getElementById("booking_modal").close();
+          // navigate("/my-purchases");
         }
-      );
-      if (response.ok) {
-        toast.success("Service booked successfully!");
-        navigate("/my-purchases"); // Navigate to user purchases page
-      } else {
+      })
+      .catch((error) => {
+        console.error("Failed to book the service:", error);
         toast.error("Failed to book the service");
-      }
-    } catch (error) {
-      console.error("Failed to book service:", error);
-      toast.error("Failed to book the service");
-    }
+      });
   };
 
   if (!service) {
