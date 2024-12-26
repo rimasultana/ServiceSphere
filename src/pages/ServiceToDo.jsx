@@ -81,7 +81,7 @@ const ServiceToDo = () => {
     <div className={`min-h-screen p-6 ${containerClass}`}>
       <h1 className="text-3xl font-bold text-center mb-8">Service To-Do</h1>
       {services.length === 0 ? (
-        <div className="text-center text-gray-600">
+        <div className="text-center flex flex-col items-center text-gray-600">
           <FaRegSadTear className="text-4xl text-red-500 mb-4" />
           <p className="text-xl">No services to manage right now.</p>
         </div>

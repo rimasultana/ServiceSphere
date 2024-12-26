@@ -18,7 +18,9 @@ const Services = () => {
     : "bg-gray-200 hover:bg-gray-300 text-gray-700";
 
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   useTitle("Services");
 
   useEffect(() => {
@@ -29,6 +31,7 @@ const Services = () => {
         );
         const data = await response.json();
         setServices(data);
+        setFilteredServices(data);
         setLoading(false);
       } catch (error) {
         console.error("Failed to fetch services:", error);
@@ -39,6 +42,20 @@ const Services = () => {
     fetchServices();
   }, []);
 
+  const handleSearchChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    if (query.trim() === "") {
+      setFilteredServices(services);
+    } else {
+      const filtered = services.filter((service) =>
+        service.serviceName.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredServices(filtered);
+    }
+  };
+
   if (loading) {
     return <LoadingSpinner />;
   }
@@ -48,13 +65,27 @@ const Services = () => {
       <h1 className="text-3xl font-bold text-center mb-6 md:mb-8">
         All Services
       </h1>
-      {services.length === 0 ? (
+
+      {/* Search Bar */}
+      <div className="mb-6 text-center">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search for services..."
+          className={`md:w-96  p-2 rounded-md ${
+            isDarkMode ? "bg-gray-700 text-white" : "bg-white text-gray-700"
+          } border border-gray-300`}
+        />
+      </div>
+
+      {filteredServices.length === 0 ? (
         <div className="text-center flex flex-col items-center text-gray-600">
           <p>
             <FaRegSadTear className="text-4xl text-red-500 mb-4" />
           </p>
           <p className="text-lg md:text-xl">
-            Sorry, there are no services available at the moment.
+            Sorry, no services match your search criteria.
           </p>
         </div>
       ) : (
@@ -74,7 +105,7 @@ const Services = () => {
               </tr>
             </thead>
             <tbody>
-              {services.map((service) => (
+              {filteredServices.map((service) => (
                 <tr key={service._id} className=" text-sm md:text-base">
                   <td className="px-4 py-2">
                     <img
