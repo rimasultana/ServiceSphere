@@ -18,6 +18,16 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState("light");
+  const [isDarkMode, setDarkMode] = useState(false);
+
+  const toggleTheme = (checked) => {
+    setDarkMode(checked);
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -54,8 +64,7 @@ const AuthProvider = ({ children }) => {
           .post("https://a11-b10-server-side.vercel.app/jwt", user, {
             withCredentials: true,
           })
-          .then((res) => {
-            console.log("login token", res.data);
+          .then(() => {
             setLoading(false);
           });
       } else {
@@ -72,6 +81,9 @@ const AuthProvider = ({ children }) => {
           });
       }
     });
+    const storedTheme = localStorage.getItem("theme") || "light";
+    setTheme(storedTheme);
+    document.documentElement.setAttribute("data-theme", storedTheme);
 
     return () => {
       unsubscribe();
@@ -86,6 +98,9 @@ const AuthProvider = ({ children }) => {
     logInUser,
     logInWithGoogle,
     logOutUser,
+    toggleTheme,
+    isDarkMode,
+    theme,
   };
 
   return (

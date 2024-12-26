@@ -11,7 +11,7 @@ const Banner = () => {
     <Swiper
       navigation={true}
       modules={[Navigation]}
-      className="mySwiper"
+      className="mySwiper z-0"
       spaceBetween={10}
     >
       <SwiperSlide className="relative">

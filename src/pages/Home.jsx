@@ -1,14 +1,16 @@
 import Banner from "../components/Banner";
 import PopularServices from "../components/PopularServices";
+import useTitle from "../hooks/useTitle";
 
 const Home = () => {
+  useTitle("Home");
   return (
-    <div>
+    <>
       <div className="pt-3">
         <Banner />
         <PopularServices />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -2,18 +2,33 @@ import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../components/Loading";
+import useTitle from "../hooks/useTitle";
+import { FaRegSadTear } from "react-icons/fa";
 
 const ServiceToDo = () => {
-  const { user } = useAuth();
+  const { user, isDarkMode } = useAuth();
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  useTitle("Service-ToDo");
+  console.log(services);
+  const containerClass = isDarkMode
+    ? "bg-gray-900 text-gray-200"
+    : "bg-gray-100 text-gray-700";
+  const tableClass = isDarkMode
+    ? "bg-gray-800 text-gray-200"
+    : "bg-white text-gray-700";
+  const headerClass = isDarkMode
+    ? "bg-gray-700 text-gray-200"
+    : "bg-gray-200 text-gray-700";
+  const buttonClass = isDarkMode
+    ? "bg-gray-700 hover:bg-gray-600 text-white"
+    : "bg-gray-200 hover:bg-gray-300 text-gray-700";
 
   useEffect(() => {
-    // Fetch services where the logged-in user is the provider
     const fetchServices = async () => {
       try {
         const response = await fetch(
-          `https://a11-b10-server-side.vercel.app/purchases?email=${user?.email}`
+          `https://a11-b10-server-side.vercel.app/purchases?providerEmail=${user?.email}`
         );
         const data = await response.json();
         setServices(data);
@@ -63,21 +78,24 @@ const ServiceToDo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className={`min-h-screen p-6 ${containerClass}`}>
       <h1 className="text-3xl font-bold text-center mb-8">Service To-Do</h1>
       {services.length === 0 ? (
         <div className="text-center text-gray-600">
+          <FaRegSadTear className="text-4xl text-red-500 mb-4" />
           <p className="text-xl">No services to manage right now.</p>
         </div>
       ) : (
         <div className="overflow-x-auto lg:max-h-screen pb-32 lg:overflow-y-auto">
-          <table className="table-auto w-full bg-white rounded-lg shadow-md">
-            <thead className="bg-gray-200 text-sm">
+          <table
+            className={`table-auto w-full rounded-lg shadow-md ${tableClass}`}
+          >
+            <thead className={headerClass}>
               <tr>
                 <th className="px-4 py-2">Image</th>
                 <th className="px-4 py-2">Service Name</th>
                 <th className="px-4 py-2">Price</th>
-                <th className="px-4 py-2">Location</th>
+                <th className="px-4 py-2">Instruction</th>
                 <th className="px-4 py-2">Status</th>
                 <th className="px-4 py-2">Customer</th>
                 <th className="px-4 py-2">Actions</th>
@@ -85,7 +103,7 @@ const ServiceToDo = () => {
             </thead>
             <tbody>
               {services.map((service) => (
-                <tr key={service._id} className="hover:bg-gray-100 text-sm">
+                <tr key={service._id} className=" text-sm">
                   <td className="px-4 py-2">
                     <img
                       src={service.serviceImage}
@@ -95,7 +113,7 @@ const ServiceToDo = () => {
                   </td>
                   <td className="px-4 py-2 font-bold">{service.serviceName}</td>
                   <td className="px-4 py-2">${service.price}</td>
-                  <td className="px-4 py-2">{service.serviceArea}</td>
+                  <td className="px-4 py-2">{service.specialInstruction}</td>
                   <td className="px-4 py-2">
                     <span
                       className={`badge ${
@@ -110,25 +128,16 @@ const ServiceToDo = () => {
                     </span>
                   </td>
                   <td className="px-4 py-2">
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={service?.bookedBy?.image}
-                        alt={service?.bookedBy?.name}
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <div>
-                        <p className="font-bold">{service?.bookedBy?.name}</p>
-                        <p className="text-gray-600 text-xs">
-                          {service?.bookedBy?.email}
-                        </p>
-                      </div>
-                    </div>
+                    <p className="font-bold">{service?.userName}</p>
+                    <p className="text-gray-600 text-xs">
+                      {service?.bookedBy?.email}
+                    </p>
                   </td>
                   <td className="px-4 py-2">
                     <div className="dropdown">
                       <label
                         tabIndex={0}
-                        className="btn btn-sm btn-outline w-full"
+                        className={`btn btn-sm btn-outline w-full ${buttonClass}`}
                       >
                         Change Status
                       </label>

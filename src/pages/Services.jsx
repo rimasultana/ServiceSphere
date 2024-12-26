@@ -1,13 +1,27 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import LoadingSpinner from "../components/Loading";
+import useTitle from "../hooks/useTitle";
+import { FaRegSadTear } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
 
 const Services = () => {
+  const { isDarkMode } = useAuth();
+  const containerClass = isDarkMode
+    ? "bg-gray-900 text-gray-200"
+    : "bg-gray-100 text-gray-700";
+  const cardClass = isDarkMode
+    ? "bg-gray-800 text-gray-200"
+    : "bg-white text-gray-700";
+  const buttonClass = isDarkMode
+    ? "bg-gray-700 hover:bg-gray-600 text-white"
+    : "bg-gray-200 hover:bg-gray-300 text-gray-700";
+
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  useTitle("Services");
 
   useEffect(() => {
-    // Fetch all services
     const fetchServices = async () => {
       try {
         const response = await fetch(
@@ -18,6 +32,7 @@ const Services = () => {
         setLoading(false);
       } catch (error) {
         console.error("Failed to fetch services:", error);
+        setLoading(false);
       }
     };
 
@@ -29,21 +44,26 @@ const Services = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-6">
-      <h1 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">
+    <div className={`min-h-screen p-6 ${containerClass}`}>
+      <h1 className="text-3xl font-bold text-center mb-6 md:mb-8">
         All Services
       </h1>
       {services.length === 0 ? (
-        <div className="text-center text-gray-600">
+        <div className="text-center flex flex-col items-center text-gray-600">
+          <p>
+            <FaRegSadTear className="text-4xl text-red-500 mb-4" />
+          </p>
           <p className="text-lg md:text-xl">
-            No services available at the moment.
+            Sorry, there are no services available at the moment.
           </p>
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table-auto w-full bg-white rounded-lg shadow-md">
+          <table
+            className={`table-auto w-full rounded-lg shadow-md ${cardClass}`}
+          >
             <thead>
-              <tr className="bg-gray-200 text-sm md:text-base">
+              <tr className=" text-sm md:text-base">
                 <th className="px-4 py-2">Image</th>
                 <th className="px-4 py-2">Service Name</th>
                 <th className="px-4 py-2">Description</th>
@@ -55,10 +75,7 @@ const Services = () => {
             </thead>
             <tbody>
               {services.map((service) => (
-                <tr
-                  key={service._id}
-                  className="hover:bg-gray-100 text-sm md:text-base"
-                >
+                <tr key={service._id} className=" text-sm md:text-base">
                   <td className="px-4 py-2">
                     <img
                       src={service.imageUrl}
@@ -85,7 +102,7 @@ const Services = () => {
                   <td className="px-4 py-2">
                     <Link
                       to={`/services/${service._id}`}
-                      className="btn btn-primary btn-sm"
+                      className={`py-2 px-4 rounded-md ${buttonClass}`}
                     >
                       View Details
                     </Link>
