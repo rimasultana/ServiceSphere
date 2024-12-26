@@ -10,12 +10,13 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ServiceDetails from "../pages/ServiceDetails";
 import PrivateRoute from "./PrivateRoute";
+import NotFound from "../components/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    errorElement: <h1>Something went wrong</h1>,
+    errorElement: <NotFound />,
     children: [
       {
         path: "/",
