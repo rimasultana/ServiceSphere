@@ -74,10 +74,6 @@ const router = createBrowserRouter([
         path: "register",
         element: <Register />,
       },
-      {
-        path: "*",
-        element: <h1>Page Not Found</h1>,
-      },
     ],
   },
 ]);
