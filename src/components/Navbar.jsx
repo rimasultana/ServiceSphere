@@ -55,7 +55,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`p-4 ${
+      className={`p-4 sticky top-0 z-50 ${
         isDarkMode ? "bg-gray-800 text-white" : "bg-blue-600 text-white"
       }`}
     >
@@ -86,6 +86,26 @@ const Navbar = () => {
           >
             <FaServicestack className="mr-1" /> Services
           </Link>
+          <Link
+            to="/add-service"
+            className={`flex items-center ${
+              isActive("/add-service")
+                ? "text-yellow-300"
+                : "hover:text-gray-300"
+            }`}
+          >
+            <FaPlus className="mr-1" /> Add Service
+          </Link>
+          <Link
+            to="/manage-service"
+            className={`flex items-center ${
+              isActive("/manage-service")
+                ? "text-yellow-300"
+                : "hover:text-gray-300"
+            }`}
+          >
+            <FaTasks className="mr-1" /> Manage Service
+          </Link>
 
           {user ? (
             <>
@@ -106,26 +126,6 @@ const Navbar = () => {
                     exit={{ opacity: 0, scale: 0.9 }}
                     className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48"
                   >
-                    <Link
-                      to="/dashboard/add-service"
-                      className={`block px-4 py-2 flex items-center ${
-                        isActive("/dashboard/add-service")
-                          ? "bg-gray-100"
-                          : "hover:bg-gray-100"
-                      }`}
-                    >
-                      <FaPlus className="mr-2" /> Add Service
-                    </Link>
-                    <Link
-                      to="/dashboard/manage-service"
-                      className={`block px-4 py-2 flex items-center ${
-                        isActive("/dashboard/manage-service")
-                          ? "bg-gray-100"
-                          : "hover:bg-gray-100"
-                      }`}
-                    >
-                      <FaTasks className="mr-2" /> Manage Service
-                    </Link>
                     <Link
                       to="/dashboard/booked-services"
                       className={`block px-4 py-2 flex items-center ${
@@ -158,7 +158,7 @@ const Navbar = () => {
                   alt="User Avatar"
                   className="w-8 h-8 rounded-full"
                 />
-                <span>{user?.displayName}</span>
+
                 <button
                   onClick={handleLogout}
                   className="flex items-center hover:text-gray-300"
@@ -219,6 +219,27 @@ const Navbar = () => {
               >
                 <FaServicestack className="mr-1" /> Services
               </Link>
+              <Link
+                to="/add-service"
+                className={`block px-4 py-2 flex items-center ${
+                  isActive("/add-service")
+                    ? "text-yellow-300"
+                    : "hover:text-gray-300"
+                }`}
+              >
+                <FaPlus className="mr-1" /> Add Service
+              </Link>
+              <Link
+                to="/manage-service"
+                className={`block px-4 py-2 flex items-center ${
+                  isActive("/manage-service")
+                    ? "text-yellow-300"
+                    : "hover:text-gray-300"
+                }`}
+              >
+                <FaTasks className="mr-1" /> Manage Service
+              </Link>
+
               {user ? (
                 <>
                   <button
@@ -243,26 +264,6 @@ const Navbar = () => {
                       }`}
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      <Link
-                        to="/dashboard/add-service"
-                        className={`block px-4 py-2 flex items-center ${
-                          isActive("/dashboard/add-service")
-                            ? "text-yellow-300"
-                            : "hover:text-gray-300"
-                        }`}
-                      >
-                        <FaPlus className="mr-2" /> Add Service
-                      </Link>
-                      <Link
-                        to="/dashboard/manage-service"
-                        className={`block px-4 py-2 flex items-center ${
-                          isActive("/dashboard/manage-service")
-                            ? "text-yellow-300"
-                            : "hover:text-gray-300"
-                        }`}
-                      >
-                        <FaTasks className="mr-2" /> Manage Service
-                      </Link>
                       <Link
                         to="/dashboard/booked-services"
                         className={`block px-4 py-2 flex items-center ${
